@@ -46,7 +46,7 @@ rm -rf %{buildroot}
 rm -rf $RPM_BUILD_ROOT/etc/bash_completion.d/dbus-bash-completion.sh
 rm -rf $RPM_BUILD_ROOT/usr/libexec/dbus-bash-completion-helper
 
-%doc_package
+%docs_package
 
 %post -p /sbin/ldconfig
 
