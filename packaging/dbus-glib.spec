@@ -1,33 +1,34 @@
-Name:       dbus-glib
-Summary:    GLib bindings for D-Bus
-Version:    0.100
-Release:    1
-Group:      System/Libraries
-License:    AFL/GPL
-URL:        http://www.freedesktop.org/software/dbus/
-Source0:    http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-%{version}.tar.gz
-BuildRequires:  pkgconfig(dbus-1)
-BuildRequires:  pkgconfig(libxml-2.0)
-BuildRequires:  pkgconfig(glib-2.0)
-BuildRequires:  libtool
+
+Name:           dbus-glib
+Version:        0.100.2
+Release:        0
+License:        AFL/GPL
+Summary:        GLib bindings for D-Bus
+Url:            http://www.freedesktop.org/software/dbus/
+Group:          System/Libraries
+Source0:        http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-%{version}.tar.gz
+BuildRequires:  autoconf
 BuildRequires:  expat-devel
 BuildRequires:  gettext-tools
-BuildRequires:  autoconf
+BuildRequires:  libtool
+BuildRequires:  pkgconfig(dbus-1)
+BuildRequires:  pkgconfig(glib-2.0)
+BuildRequires:  pkgconfig(libxml-2.0)
 
 %description
 D-Bus add-on library to integrate the standard D-Bus library with
 the GLib thread abstraction and main loop.
 
 %package devel
-Summary:    Libraries and headers for the D-Bus GLib bindings
-Group:      Development/Libraries
-Requires:   %{name} = %{version}-%{release}
+Summary:        Libraries and headers for the D-Bus GLib bindings
+Group:          Development/Libraries
+Requires:       %{name} = %{version}
 
 %description devel
 Headers and static libraries for the D-Bus GLib bindings
 
 %prep
-%setup -q 
+%setup -q
 
 %build
 
@@ -36,15 +37,14 @@ Headers and static libraries for the D-Bus GLib bindings
     --enable-asserts=yes \
     --disable-gtk-doc
 
-make %{?jobs:-j%jobs}
+make %{?_smp_mflags}
 
 %install
-rm -rf %{buildroot}
 %make_install
 
 # don't care about bash completion in a consumer device
-rm -rf $RPM_BUILD_ROOT/etc/bash_completion.d/dbus-bash-completion.sh
-rm -rf $RPM_BUILD_ROOT/usr/libexec/dbus-bash-completion-helper
+rm -rf %{buildroot}%{_sysconfdir}/bash_completion.d/dbus-bash-completion.sh
+rm -rf %{buildroot}%{_prefix}/libexec/dbus-bash-completion-helper
 
 %docs_package
 
@@ -53,6 +53,7 @@ rm -rf $RPM_BUILD_ROOT/usr/libexec/dbus-bash-completion-helper
 %postun -p /sbin/ldconfig
 
 %files
+%license COPYING
 %{_libdir}/*glib*.so.*
 
 %files devel
