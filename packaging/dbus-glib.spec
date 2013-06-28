@@ -7,6 +7,7 @@ Summary:        GLib bindings for D-Bus
 Url:            http://www.freedesktop.org/software/dbus/
 Group:          System/Libraries
 Source0:        http://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-%{version}.tar.gz
+Source1001: 	dbus-glib.manifest
 BuildRequires:  autoconf
 BuildRequires:  expat-devel
 BuildRequires:  gettext-tools
@@ -29,6 +30,7 @@ Headers and static libraries for the D-Bus GLib bindings
 
 %prep
 %setup -q
+cp %{SOURCE1001} .
 
 %build
 
@@ -53,10 +55,12 @@ rm -rf %{buildroot}%{_prefix}/libexec/dbus-bash-completion-helper
 %postun -p /sbin/ldconfig
 
 %files
+%manifest %{name}.manifest
 %license COPYING
 %{_libdir}/*glib*.so.*
 
 %files devel
+%manifest %{name}.manifest
 %{_libdir}/lib*.so
 %{_libdir}/pkgconfig/dbus-glib-1.pc
 %{_includedir}/dbus-1.0/dbus/*
